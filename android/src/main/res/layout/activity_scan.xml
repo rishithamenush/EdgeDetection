@@ -10,39 +10,65 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <!-- Top bar: Flash (left), Auto (right) -->
+
+    <!-- Bottom bar: Cancel, Capture, Gallery -->
+
     <com.sample.edgedetection.view.PaperRectangle
         android:id="@+id/paper_rect"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorTransparent" />
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/auto_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="23dp"
+        android:text="Auto"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/flash"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="48dp"
+        android:background="@android:color/transparent"
+        android:padding="4dp"
+        app:srcCompat="@drawable/ic_baseline_flash_on_24"
+        app:tint="@android:color/white" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary"
-        android:paddingLeft="15dp"
-        android:paddingTop="30dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="30dp">
+        android:background="@android:color/transparent"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:paddingBottom="32dp">
 
+        <!-- Replace ic_cancel with your actual cancel icon name if needed -->
         <ImageView
-            android:id="@+id/flash"
+            android:id="@+id/cancel"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_alignParentRight="false"
-            android:layout_centerVertical="true"
-            android:background="@drawable/round_button"
+            android:layout_alignParentStart="true"
             android:padding="12dp"
-            app:srcCompat="@drawable/ic_baseline_flash_on_24"
+            app:srcCompat="@drawable/ic_cancel"
             app:tint="@android:color/white" />
 
         <ImageView
             android:id="@+id/shut"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_centerInParent="true"
-            android:background="@drawable/shut_button"
+            android:layout_width="114dp"
+            android:layout_height="84dp"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/capture"
             app:tint="@android:color/white" />
 
         <ImageView
@@ -50,12 +76,10 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/round_button"
+            android:layout_marginEnd="56dp"
             android:padding="12dp"
-            app:srcCompat="@drawable/ic_menu_gallery"
+            app:srcCompat="@drawable/gallery_add"
             app:tint="@android:color/white" />
-
     </RelativeLayout>
 
 </RelativeLayout>
