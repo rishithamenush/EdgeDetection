@@ -64,9 +64,10 @@ class CropPresenter(
                 croppedBitmap =
                     Bitmap.createBitmap(pc.width(), pc.height(), Bitmap.Config.ARGB_8888)
                 Utils.matToBitmap(pc, croppedBitmap)
-                iCropView.getCroppedPaper().setImageBitmap(croppedBitmap)
-                iCropView.getPaper().visibility = View.GONE
-                iCropView.getPaperRect().visibility = View.GONE
+                // Immediately save and finish, no preview
+                save()
+                (iCropView as? android.app.Activity)?.setResult(android.app.Activity.RESULT_OK)
+                (iCropView as? android.app.Activity)?.finish()
             }
     }
 

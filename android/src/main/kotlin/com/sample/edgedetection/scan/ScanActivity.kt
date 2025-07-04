@@ -41,8 +41,7 @@ class ScanActivity : BaseActivity(), IScanView.Proxy {
         if (!OpenCVLoader.initDebug()) {
             Log.i(TAG, "loading opencv error, exit")
             finish()
-        }
-        else {
+        } else {
             Log.i("OpenCV", "OpenCV loaded Successfully!");
         }
 
@@ -51,36 +50,9 @@ class ScanActivity : BaseActivity(), IScanView.Proxy {
                 mPresenter.shut()
             }
         }
-
-        // to hide the flashLight button from  SDK versions which we do not handle the permission for!
-        findViewById<View>(R.id.flash).visibility = if
-                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU && baseContext.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH))
-            View.VISIBLE else
-                View.GONE
-
-        findViewById<View>(R.id.flash).setOnClickListener {
-            mPresenter.toggleFlash()
-        }
-
-        val initialBundle = intent.getBundleExtra(EdgeDetectionHandler.INITIAL_BUNDLE) as Bundle
-
-        if(!initialBundle.containsKey(EdgeDetectionHandler.FROM_GALLERY)){
-            this.title = initialBundle.getString(EdgeDetectionHandler.SCAN_TITLE, "") as String
-        }
-
-        findViewById<View>(R.id.gallery).visibility =
-                if (initialBundle.getBoolean(EdgeDetectionHandler.CAN_USE_GALLERY, true))
-                    View.VISIBLE
-                else View.GONE
-
-        findViewById<View>(R.id.gallery).setOnClickListener {
-            pickupFromGallery()
-        }
-
-        if (initialBundle.containsKey(EdgeDetectionHandler.FROM_GALLERY) && initialBundle.getBoolean(EdgeDetectionHandler.FROM_GALLERY,false))
-        {
-            pickupFromGallery()
-        }
+        // Remove flash and gallery UI for minimal flow
+        findViewById<View>(R.id.flash).visibility = View.GONE
+        findViewById<View>(R.id.gallery).visibility = View.GONE
     }
 
     private fun pickupFromGallery() {

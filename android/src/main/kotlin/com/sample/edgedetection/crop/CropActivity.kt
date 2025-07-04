@@ -11,6 +11,11 @@ import com.sample.edgedetection.EdgeDetectionHandler
 import com.sample.edgedetection.R
 import com.sample.edgedetection.base.BaseActivity
 import com.sample.edgedetection.view.PaperRectangle
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import org.opencv.core.Mat
+import android.graphics.Bitmap
 
 class CropActivity : BaseActivity(), ICropView.Proxy {
 
@@ -53,32 +58,28 @@ class CropActivity : BaseActivity(), ICropView.Proxy {
     override fun getCroppedPaper() = findViewById<ImageView>(R.id.picture_cropped)
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Only show Cancel and Done (action_label) buttons
         menuInflater.inflate(R.menu.crop_activity_menu, menu)
-
-        menu.setGroupVisible(R.id.enhance_group, showMenuItems)
-
-        menu.findItem(R.id.rotation_image).isVisible = showMenuItems
-
-        menu.findItem(R.id.gray).title =
-            initialBundle.getString(EdgeDetectionHandler.CROP_BLACK_WHITE_TITLE) as String
-        menu.findItem(R.id.reset).title =
-            initialBundle.getString(EdgeDetectionHandler.CROP_RESET_TITLE) as String
-
-        if (showMenuItems) {
-            menu.findItem(R.id.action_label).isVisible = true
-            findViewById<ImageView>(R.id.crop).visibility = View.GONE
-        } else {
-            menu.findItem(R.id.action_label).isVisible = false
-            findViewById<ImageView>(R.id.crop).visibility = View.VISIBLE
-        }
-
+        // Hide all menu items except Cancel and Done
+        menu.setGroupVisible(R.id.enhance_group, false)
+        menu.findItem(R.id.rotation_image).isVisible = false
+        menu.findItem(R.id.gray).isVisible = false
+        menu.findItem(R.id.reset).isVisible = false
+        menu.findItem(R.id.action_label).isVisible = false // Hide by default, show after crop
+        findViewById<ImageView>(R.id.crop).visibility = View.VISIBLE
         return super.onCreateOptionsMenu(menu)
     }
 
 
     private fun changeMenuVisibility(showMenuItems: Boolean) {
+        // Only show Done button after cropping
         this.showMenuItems = showMenuItems
         invalidateOptionsMenu()
+        if (showMenuItems) {
+            findViewById<ImageView>(R.id.crop).visibility = View.GONE
+        } else {
+            findViewById<ImageView>(R.id.crop).visibility = View.VISIBLE
+        }
     }
 
     // handle button activities
@@ -89,27 +90,12 @@ class CropActivity : BaseActivity(), ICropView.Proxy {
                 return true
             }
             R.id.action_label -> {
-                Log.e(TAG, "Saved touched!")
+                // Done button
                 item.isEnabled = false
                 mPresenter.save()
                 setResult(Activity.RESULT_OK)
                 System.gc()
                 finish()
-                return true
-            }
-            R.id.rotation_image -> {
-                Log.e(TAG, "Rotate touched!")
-                mPresenter.rotate()
-                return true
-            }
-            R.id.gray -> {
-                Log.e(TAG, "Black White touched!")
-                mPresenter.enhance()
-                return true
-            }
-            R.id.reset -> {
-                Log.e(TAG, "Reset touched!")
-                mPresenter.reset()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
