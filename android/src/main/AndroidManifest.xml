@@ -9,6 +9,9 @@
         android:protectionLevel="normal"
         android:maxSdkVersion="30"/>
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+
     <application
         android:allowBackup="false"
         android:requestLegacyExternalStorage="true"

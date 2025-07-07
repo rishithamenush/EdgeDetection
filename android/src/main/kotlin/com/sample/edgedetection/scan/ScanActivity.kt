@@ -25,6 +25,9 @@ import org.opencv.core.Mat
 import org.opencv.core.Size
 import org.opencv.imgcodecs.Imgcodecs
 import java.io.*
+import android.Manifest
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 
 class ScanActivity : BaseActivity(), IScanView.Proxy {
 
@@ -56,6 +59,33 @@ class ScanActivity : BaseActivity(), IScanView.Proxy {
         // Ensure flash and gallery icons are visible
         findViewById<View>(R.id.flash).visibility = View.VISIBLE
         findViewById<View>(R.id.gallery).visibility = View.VISIBLE
+        findViewById<View>(R.id.gallery).setOnClickListener {
+            checkGalleryPermissionAndOpen()
+        }
+    }
+
+    private fun checkGalleryPermissionAndOpen() {
+        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
+            pickupFromGallery()
+        } else {
+            requestPermissions(arrayOf(permission), REQUEST_GALLERY_PERMISSION)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_GALLERY_PERMISSION) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                pickupFromGallery()
+            } else {
+                Toast.makeText(this, "Gallery permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun pickupFromGallery() {
@@ -194,5 +224,9 @@ class ScanActivity : BaseActivity(), IScanView.Proxy {
             byteBuffer.write(buffer, 0, len)
         }
         return byteBuffer.toByteArray()
+    }
+
+    companion object {
+        private const val REQUEST_GALLERY_PERMISSION = 1001
     }
 }
