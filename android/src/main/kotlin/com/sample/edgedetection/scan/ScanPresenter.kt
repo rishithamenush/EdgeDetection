@@ -337,11 +337,8 @@ class ScanPresenter constructor(
                     }.observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             iView.getPaperRect().onCornersDetected(it)
-                            if (isAutoMode) {
-                                // In auto mode, go to crop screen automatically
-                                val resizedMat = matrixResizer(img)
-                                detectEdge(resizedMat)
-                            }
+                            // In auto mode, just lock the detected box, do not go to crop screen
+                            // (Removed: if (isAutoMode) { detectEdge(resizedMat) })
                         }, {
                             iView.getPaperRect().onCornersNotDetected()
                         })

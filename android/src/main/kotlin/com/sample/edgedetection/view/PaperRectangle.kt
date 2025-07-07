@@ -37,20 +37,22 @@ class PaperRectangle : View {
     private var latestDownY = 0.0F
 
     init {
-        rectPaint.color = Color.argb(128, 255, 255, 255)
+        // Blue border for rectangle
+        rectPaint.color = Color.parseColor("#2196F3") // Blue
         rectPaint.isAntiAlias = true
         rectPaint.isDither = true
         rectPaint.strokeWidth = 6F
         rectPaint.style = Paint.Style.FILL_AND_STROKE
-        rectPaint.strokeJoin = Paint.Join.ROUND    // set the join to round you want
-        rectPaint.strokeCap = Paint.Cap.ROUND      // set the paint cap to round too
+        rectPaint.strokeJoin = Paint.Join.ROUND
+        rectPaint.strokeCap = Paint.Cap.ROUND
         rectPaint.pathEffect = CornerPathEffect(10f)
 
-        circlePaint.color = Color.WHITE
+        // Blue corner circles
+        circlePaint.color = Color.parseColor("#2196F3") // Blue
         circlePaint.isDither = true
         circlePaint.isAntiAlias = true
         circlePaint.strokeWidth = 4F
-        circlePaint.style = Paint.Style.STROKE
+        circlePaint.style = Paint.Style.FILL_AND_STROKE
     }
 
     fun onCornersDetected(corners: Corners) {
@@ -119,17 +121,20 @@ class PaperRectangle : View {
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        rectPaint.color = Color.WHITE
+        // Draw blue border
+        rectPaint.color = Color.parseColor("#2196F3")
         rectPaint.strokeWidth = 6F
         rectPaint.style = Paint.Style.STROKE
         canvas?.drawPath(path, rectPaint)
 
-        rectPaint.color = Color.argb(128, 255, 255, 255)
+        // Draw semi-transparent blue fill
+        rectPaint.color = Color.argb(60, 33, 150, 243) // Blue with alpha
         rectPaint.strokeWidth = 0F
         rectPaint.style = Paint.Style.FILL
         canvas?.drawPath(path, rectPaint)
 
         if (cropMode) {
+            // Draw blue corner circles
             canvas?.drawCircle(tl.x.toFloat(), tl.y.toFloat(), 20F, circlePaint)
             canvas?.drawCircle(tr.x.toFloat(), tr.y.toFloat(), 20F, circlePaint)
             canvas?.drawCircle(bl.x.toFloat(), bl.y.toFloat(), 20F, circlePaint)

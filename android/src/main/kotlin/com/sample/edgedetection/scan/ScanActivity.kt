@@ -50,7 +50,7 @@ class ScanActivity : BaseActivity(), IScanView.Proxy {
         }
 
         findViewById<View>(R.id.shut).setOnClickListener {
-            if (!isAutoMode && mPresenter.canShut) {
+            if (mPresenter.canShut) {
                 mPresenter.shut()
             }
         }
