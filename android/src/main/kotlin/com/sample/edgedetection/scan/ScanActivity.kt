@@ -160,6 +160,8 @@ class ScanActivity : BaseActivity(), IScanView.Proxy {
     @RequiresApi(Build.VERSION_CODES.P)
     fun onImageSelected(imageUri: Uri) {
         try {
+            Toast.makeText(this, "Image selected from gallery", Toast.LENGTH_SHORT).show()
+            Log.i(TAG, "Image selected from gallery: $imageUri")
             val iStream: InputStream = contentResolver.openInputStream(imageUri)!!
 
             val exif = ExifInterface(iStream)
@@ -205,6 +207,8 @@ class ScanActivity : BaseActivity(), IScanView.Proxy {
             mat.release()
 
             mPresenter.detectEdge(pic)
+            Toast.makeText(this, "Opening crop screen", Toast.LENGTH_SHORT).show()
+            Log.i(TAG, "Opening crop screen with selected image")
         } catch (error: Exception) {
             val intent = Intent()
             intent.putExtra("RESULT", error.toString())
