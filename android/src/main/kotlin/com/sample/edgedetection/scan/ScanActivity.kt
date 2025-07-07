@@ -62,6 +62,9 @@ class ScanActivity : BaseActivity(), IScanView.Proxy {
         findViewById<View>(R.id.gallery).setOnClickListener {
             checkGalleryPermissionAndOpen()
         }
+        findViewById<View>(R.id.flash).setOnClickListener {
+            mPresenter.toggleFlash()
+        }
     }
 
     private fun checkGalleryPermissionAndOpen() {
