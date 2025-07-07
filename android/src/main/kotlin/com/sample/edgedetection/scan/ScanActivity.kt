@@ -50,6 +50,9 @@ class ScanActivity : BaseActivity(), IScanView.Proxy {
                 mPresenter.shut()
             }
         }
+        findViewById<View>(R.id.cancel).setOnClickListener {
+            finish()
+        }
         // Ensure flash and gallery icons are visible
         findViewById<View>(R.id.flash).visibility = View.VISIBLE
         findViewById<View>(R.id.gallery).visibility = View.VISIBLE
