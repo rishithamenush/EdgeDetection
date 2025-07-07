@@ -23,10 +23,12 @@
         android:id="@+id/auto_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="23dp"
+        android:layout_marginStart="337dp"
+        android:layout_marginTop="62dp"
+        android:layout_marginEnd="36dp"
         android:text="Auto"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
@@ -37,49 +39,52 @@
         android:layout_height="36dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="48dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="51dp"
+        android:layout_marginEnd="338dp"
         android:background="@android:color/transparent"
         android:padding="4dp"
         app:srcCompat="@drawable/ic_baseline_flash_on_24"
         app:tint="@android:color/white" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/shut"
+        android:layout_width="86dp"
+        android:layout_height="65dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/transparent"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp"
-        android:paddingBottom="32dp">
+        android:layout_marginStart="163dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginBottom="45dp"
+        app:srcCompat="@drawable/capture"
+        app:tint="@android:color/white" />
 
-        <!-- Replace ic_cancel with your actual cancel icon name if needed -->
-        <ImageView
-            android:id="@+id/cancel"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:padding="12dp"
-            app:srcCompat="@drawable/ic_cancel"
-            app:tint="@android:color/white" />
+    <ImageView
+        android:id="@+id/cancel"
+        android:layout_width="71dp"
+        android:layout_height="67dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="35dp"
+        android:layout_marginBottom="30dp"
+        android:padding="12dp"
+        app:srcCompat="@drawable/ic_cancel"
+        app:tint="@android:color/white" />
 
-        <ImageView
-            android:id="@+id/shut"
-            android:layout_width="114dp"
-            android:layout_height="84dp"
-            android:layout_centerHorizontal="true"
-            app:srcCompat="@drawable/capture"
-            app:tint="@android:color/white" />
-
-        <ImageView
-            android:id="@+id/gallery"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="56dp"
-            android:padding="12dp"
-            app:srcCompat="@drawable/gallery_add"
-            app:tint="@android:color/white" />
-    </RelativeLayout>
+    <ImageView
+        android:id="@+id/gallery"
+        android:layout_width="60dp"
+        android:layout_height="64dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="314dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginBottom="31dp"
+        android:padding="12dp"
+        app:srcCompat="@drawable/gallery_add"
+        app:tint="@android:color/white" />
 
 </RelativeLayout>

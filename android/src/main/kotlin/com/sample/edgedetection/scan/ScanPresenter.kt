@@ -192,20 +192,15 @@ class ScanPresenter constructor(
         }
 
         val supportPicSize = mCamera?.parameters?.supportedPictureSizes
-        supportPicSize?.sortByDescending { it.width.times(it.height) }
-        var pictureSize = supportPicSize?.find {
-            it.height.toFloat().div(it.width.toFloat()) - previewRatio < 0.01
-        }
-
-        if (null == pictureSize) {
-            pictureSize = supportPicSize?.get(0)
-        }
-
-        if (null == pictureSize) {
-            Log.e(TAG, "can not get picture size")
-        } else {
+        // Always use the largest supported picture size
+        val pictureSize = supportPicSize?.maxByOrNull { it.width * it.height }
+        if (pictureSize != null) {
             param?.setPictureSize(pictureSize.width, pictureSize.height)
+        } else {
+            Log.e(TAG, "can not get picture size")
         }
+        // Set JPEG quality to 100 (best)
+        param?.jpegQuality = 100
         val pm = context.packageManager
         if (pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_AUTOFOCUS) && mCamera!!.parameters.supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE))
         {

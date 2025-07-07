@@ -50,9 +50,9 @@ class ScanActivity : BaseActivity(), IScanView.Proxy {
                 mPresenter.shut()
             }
         }
-        // Remove flash and gallery UI for minimal flow
-        findViewById<View>(R.id.flash).visibility = View.GONE
-        findViewById<View>(R.id.gallery).visibility = View.GONE
+        // Ensure flash and gallery icons are visible
+        findViewById<View>(R.id.flash).visibility = View.VISIBLE
+        findViewById<View>(R.id.gallery).visibility = View.VISIBLE
     }
 
     private fun pickupFromGallery() {
