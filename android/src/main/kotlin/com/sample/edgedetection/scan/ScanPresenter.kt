@@ -61,6 +61,10 @@ class ScanPresenter constructor(
 
     private var mLastClickTime = 0L
     private var shutted: Boolean = true
+    private var isAutoMode: Boolean = true
+    fun setAutoMode(auto: Boolean) {
+        isAutoMode = auto
+    }
 
     init {
         mSurfaceHolder.addCallback(this)
@@ -333,7 +337,11 @@ class ScanPresenter constructor(
                     }.observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             iView.getPaperRect().onCornersDetected(it)
-
+                            if (isAutoMode) {
+                                // In auto mode, go to crop screen automatically
+                                val resizedMat = matrixResizer(img)
+                                detectEdge(resizedMat)
+                            }
                         }, {
                             iView.getPaperRect().onCornersNotDetected()
                         })

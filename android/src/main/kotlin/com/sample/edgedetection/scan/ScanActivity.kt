@@ -32,6 +32,7 @@ import androidx.core.content.ContextCompat
 class ScanActivity : BaseActivity(), IScanView.Proxy {
 
     private lateinit var mPresenter: ScanPresenter
+    private var isAutoMode = true
 
     override fun provideContentViewId(): Int = R.layout.activity_scan
 
@@ -49,7 +50,7 @@ class ScanActivity : BaseActivity(), IScanView.Proxy {
         }
 
         findViewById<View>(R.id.shut).setOnClickListener {
-            if (mPresenter.canShut) {
+            if (!isAutoMode && mPresenter.canShut) {
                 mPresenter.shut()
             }
         }
@@ -65,6 +66,14 @@ class ScanActivity : BaseActivity(), IScanView.Proxy {
         findViewById<View>(R.id.flash).setOnClickListener {
             mPresenter.toggleFlash()
         }
+        val autoText = findViewById<View>(R.id.auto_text) as? android.widget.TextView
+        autoText?.setOnClickListener {
+            isAutoMode = !isAutoMode
+            autoText.text = if (isAutoMode) "Auto" else "Manual"
+            mPresenter.setAutoMode(isAutoMode)
+        }
+        // Set initial mode
+        autoText?.text = if (isAutoMode) "Auto" else "Manual"
     }
 
     private fun checkGalleryPermissionAndOpen() {
