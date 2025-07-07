@@ -179,29 +179,28 @@ class ScanPresenter constructor(
 
         size?.width?.toString()?.let { Log.i(TAG, it) }
         val param = mCamera?.parameters
-        param?.setPreviewSize(size?.width ?: 1920, size?.height ?: 1080)
-        val display = iView.getCurrentDisplay()
-        val point = Point()
+        // Find the preview size
+        val previewWidth = size?.width ?: 1920
+        val previewHeight = size?.height ?: 1080
+        val previewRatio = previewWidth.toFloat() / previewHeight.toFloat()
+        param?.setPreviewSize(previewWidth, previewHeight)
 
-        display?.getRealSize(point)
-
-        val displayWidth = minOf(point.x, point.y)
-        val displayHeight = maxOf(point.x, point.y)
-        val displayRatio = displayWidth.div(displayHeight.toFloat())
-        val previewRatio = size?.height?.toFloat()?.div(size.width.toFloat()) ?: displayRatio
-        if (displayRatio > previewRatio) {
-            val surfaceParams = iView.getSurfaceView().layoutParams
-            surfaceParams.height = (displayHeight / displayRatio * previewRatio).toInt()
-            iView.getSurfaceView().layoutParams = surfaceParams
-        }
-
+        // Find the largest picture size with matching aspect ratio
         val supportPicSize = mCamera?.parameters?.supportedPictureSizes
-        // Always use the largest supported picture size
-        val pictureSize = supportPicSize?.maxByOrNull { it.width * it.height }
-        if (pictureSize != null) {
-            param?.setPictureSize(pictureSize.width, pictureSize.height)
-        } else {
-            Log.e(TAG, "can not get picture size")
+        var bestPictureSize = supportPicSize?.firstOrNull()
+        var minDiff = Float.MAX_VALUE
+        supportPicSize?.forEach { picSize ->
+            val ratio = picSize.width.toFloat() / picSize.height.toFloat()
+            val diff = kotlin.math.abs(ratio - previewRatio)
+            if (diff < minDiff) {
+                minDiff = diff
+                bestPictureSize = picSize
+            }
+        }
+        bestPictureSize?.let {
+            param?.setPictureSize(it.width, it.height)
+        } ?: run {
+            Log.e(TAG, "can not get matching picture size")
         }
         // Set JPEG quality to 100 (best)
         param?.jpegQuality = 100
